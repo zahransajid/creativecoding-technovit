@@ -11,6 +11,8 @@ In addition, consecutive generations of automota were created side by side to he
 The powerpoint presentation accompanying the presentation is in the root directory.
 Some example renders can be found under the `/renders` directory.
 
+To simply explore the code and its results, try `/conway/conway_simple.blend` as it contains just the code and results.
+
 The obj files generated can be found under `/conway`.
 
 ## How to run it
