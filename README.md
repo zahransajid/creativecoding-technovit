@@ -1,5 +1,5 @@
-# creativecoding-technovit
-
+# Cellular Automata in 3D
+![Blender](https://img.shields.io/badge/blender-%23F5792A.svg?style=for-the-badge&logo=blender&logoColor=white)    ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ## The premise
 Using python and the Blender python API, Conway's game of life, a classic example of cellular automata was extended to 3 dimensions.
 In addition, consecutive generations of automota were created side by side to help understand temporal progression.
