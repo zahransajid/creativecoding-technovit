@@ -8,6 +8,7 @@ authors = ["Christo <christotantony2003@gmail.com>"]
 python = "^3.9.6"
 numpy = "^1.23.3"
 matplotlib = "^3.5.3"
+black = "^22.8"
 
 [tool.poetry.dev-dependencies]
 

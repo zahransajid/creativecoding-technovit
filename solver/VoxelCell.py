@@ -29,7 +29,9 @@ class VoxelCell:
                 new_voxelcell.set_alive()
                 return new_voxelcell
         else:
-            raise ValueError("The both sides of '+' statement must be VoxelCell object.")
+            raise ValueError(
+                "The both sides of '+' statement must be VoxelCell object."
+            )
 
     def __repr__(self):
         return f"VoxelCell(alive={self._alive})"

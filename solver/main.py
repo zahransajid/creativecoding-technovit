@@ -54,7 +54,7 @@ if __name__ == "__main__":
             elif arguments[0] == "--save-prefix":
                 SAVE_PRE = arguments[1]
             elif arguments[0] == "--rules":
-            	 RULESET = arguments[1]
+                RULESET = arguments[1]
         except ValueError or IndexError as error:
             print("Something wrong. Check the provided flags.")
             exit(0)
@@ -88,10 +88,14 @@ if __name__ == "__main__":
             except IndexError:
                 onebyone = False
 
-            create_matplotlib_graphs(Life, GEN, (SAVE, SAVE_PRE), True, onebyone=onebyone)
+            create_matplotlib_graphs(
+                Life, GEN, (SAVE, SAVE_PRE), True, onebyone=onebyone
+            )
 
     # Doing nothing fancy
     else:
-        print("You choose doing nothing but program will still calculated the generations.")
+        print(
+            "You choose doing nothing but program will still calculated the generations."
+        )
         for gen in range(GEN):
             Life.update()

@@ -3,13 +3,19 @@ from Space import Space
 
 def workspace_divider(needed: int):
     from math import sqrt
+
     while int(sqrt(needed)) != sqrt(needed):
         needed += 1
     return int(sqrt(needed))
 
 
-def create_matplotlib_graphs(space_object: Space, generations: int, save: tuple = (False, None), show: bool = True,
-                             onebyone: bool = False):
+def create_matplotlib_graphs(
+    space_object: Space,
+    generations: int,
+    save: tuple = (False, None),
+    show: bool = True,
+    onebyone: bool = False,
+):
     """
     This function will create matplotlib figures for both saving and displaying at every generation.
 
@@ -34,7 +40,7 @@ def create_matplotlib_graphs(space_object: Space, generations: int, save: tuple 
         for gen in range(generations):
             fig.add_subplot(110 * workspace_dims + gen + 1, projection="3d")
             ax = fig.gca()
-            ax.set_aspect('auto')
+            ax.set_aspect("auto")
             ax.voxels(values, edgecolor="k")
             if save[0]:
                 plt.savefig(f"{save[1]}_gen_{gen}")
@@ -47,8 +53,8 @@ def create_matplotlib_graphs(space_object: Space, generations: int, save: tuple 
     else:
         for gen in range(generations):
             fig = plt.figure(gen)
-            ax = fig.gca(projection='3d')
-            ax.set_aspect('auto')
+            ax = fig.gca(projection="3d")
+            ax.set_aspect("auto")
             ax.voxels(values, edgecolor="k")
             if save[0]:
                 plt.savefig(f"{save[1]}_gen_{gen}")
@@ -60,7 +66,9 @@ def create_matplotlib_graphs(space_object: Space, generations: int, save: tuple 
             values = Space.clear_ndarray(space_object.export())
 
 
-def create_mayavi_animation(space_object: Space, generations: int, wait: int, ui: bool = False):
+def create_mayavi_animation(
+    space_object: Space, generations: int, wait: int, ui: bool = False
+):
     """
     This function will create a 3D animation using mayavi.mlab module. You can't directly change
     camera positions while calculating the generations but after, you can. It should be fixed in
@@ -88,7 +96,7 @@ def create_mayavi_animation(space_object: Space, generations: int, wait: int, ui
             _x, _y, _z, _val = space_object.export(seperate_dims=True)
             plt.mlab_source.reset(x=_x, y=_y, z=_z, scalars=_val, reset_zoom=True)
             print(f"Generation: {index + 1}")
-            mlab.view(distance=dist+index, focalpoint="auto", figure=fig)
+            mlab.view(distance=dist + index, focalpoint="auto", figure=fig)
             index += 1
             if index == gen:
                 print("Simulation has completed.")

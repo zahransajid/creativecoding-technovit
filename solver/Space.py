@@ -7,12 +7,24 @@ from copy import deepcopy
 class Space:
     LENGTH_EXPAND_RATE: int = 3
 
-    def __init__(self, row_count, col_count, page_count, chance_1_divided_by=3, restricted_page=None):
+    def __init__(
+        self,
+        row_count,
+        col_count,
+        page_count,
+        chance_1_divided_by=3,
+        restricted_page=None,
+    ):
 
         # Checking for if the parameters are 0 and change is 1.
-        if any([i <= 0 for i in [row_count, col_count, page_count]]) \
-                or chance_1_divided_by <= 0 or chance_1_divided_by == 1:
-            raise Exception("You can't construct a Space object dimensionless or have a living chance %100.")
+        if (
+            any([i <= 0 for i in [row_count, col_count, page_count]])
+            or chance_1_divided_by <= 0
+            or chance_1_divided_by == 1
+        ):
+            raise Exception(
+                "You can't construct a Space object dimensionless or have a living chance %100."
+            )
 
         # Assigning the properties
         self._entered_dims = (row_count, col_count, page_count)
@@ -20,8 +32,11 @@ class Space:
         self._max_page: int = restricted_page if not restricted_page else 0
         self._rows: int = row_count + self.LENGTH_EXPAND_RATE * 2
         self._cols: int = col_count + self.LENGTH_EXPAND_RATE * 2
-        self._pages: int = \
-            page_count + self.LENGTH_EXPAND_RATE * 2 if self._check_page_restriction(page_count) else restricted_page
+        self._pages: int = (
+            page_count + self.LENGTH_EXPAND_RATE * 2
+            if self._check_page_restriction(page_count)
+            else restricted_page
+        )
         self._rules_born: list = [3]
         self._rules_stayalive: list = [2, 3]
 
@@ -54,11 +69,18 @@ class Space:
         """
         # TODO: Restriction doesn't work. Fix it.
         # Getting expended dimensions for self._grid.
-        new_z, new_x, new_y = self._get_expended_dim(self._pages, self._rows, self._cols)
+        new_z, new_x, new_y = self._get_expended_dim(
+            self._pages, self._rows, self._cols
+        )
         # Creating a new (with expended lengths) grid.
         expended_grid = self.create_grid(new_z, new_x, new_y)
         # Combining the new grid with the old one, so that livings are protected.
-        self.combine_two_grid(expended_grid, self._grid, (self._pages, self._rows, self._cols), self.LENGTH_EXPAND_RATE)
+        self.combine_two_grid(
+            expended_grid,
+            self._grid,
+            (self._pages, self._rows, self._cols),
+            self.LENGTH_EXPAND_RATE,
+        )
         # Setting new expended dimensions to the instance.
         self._set_expended_dim()
 
@@ -80,7 +102,9 @@ class Space:
         for page_i in range(self._pages):
             for row_i in range(self._rows):
                 for col_i in range(self._cols):
-                    np_array[page_i, row_i, col_i] = self._grid[page_i][row_i][col_i].get_numeric_alive()
+                    np_array[page_i, row_i, col_i] = self._grid[page_i][row_i][
+                        col_i
+                    ].get_numeric_alive()
         # Returning the ndarray directly.
         if not seperate_dims:
             return np_array
@@ -103,9 +127,16 @@ class Space:
                 # 2, 3, 7... (X coordinates - 3th dim)
                 # 1, 1, 4... (Y coordinates - 2th dim)
                 # 1, 1, 2... (Z coordinates - 1th dim)
-                new_matrix[:, insterted_index] = np.transpose(np.array([is_alive, index[2], index[1], index[0]]))
+                new_matrix[:, insterted_index] = np.transpose(
+                    np.array([is_alive, index[2], index[1], index[0]])
+                )
                 insterted_index += 1
-            return new_matrix[1, :], new_matrix[2, :], new_matrix[3, :], new_matrix[0, :]
+            return (
+                new_matrix[1, :],
+                new_matrix[2, :],
+                new_matrix[3, :],
+                new_matrix[0, :],
+            )
 
     def randomize(self) -> None:
         """
@@ -118,9 +149,17 @@ class Space:
                     # Centering the Scene inside the big matrix.
                     # We need that big matrix because it is needed
                     # for simulating unlimited space.
-                    if self.LENGTH_EXPAND_RATE < __page <= self._entered_dims[2] + self.LENGTH_EXPAND_RATE \
-                            and self.LENGTH_EXPAND_RATE < __row <= self._entered_dims[0] + self.LENGTH_EXPAND_RATE \
-                            and self.LENGTH_EXPAND_RATE < __col <= self._entered_dims[1] + self.LENGTH_EXPAND_RATE:
+                    if (
+                        self.LENGTH_EXPAND_RATE
+                        < __page
+                        <= self._entered_dims[2] + self.LENGTH_EXPAND_RATE
+                        and self.LENGTH_EXPAND_RATE
+                        < __row
+                        <= self._entered_dims[0] + self.LENGTH_EXPAND_RATE
+                        and self.LENGTH_EXPAND_RATE
+                        < __col
+                        <= self._entered_dims[1] + self.LENGTH_EXPAND_RATE
+                    ):
 
                         # Since randint(0, x) returns a integer in [0, 1, 2, ..., x-1]
                         # it works as a chance rate
@@ -188,7 +227,9 @@ class Space:
             for row_i in range(self._rows):
                 for col_i in range(self._cols):
                     # Finding the neighbours for VoxelCell in position of (row_i, col_i, page_i).
-                    neighbours = self._find_neighbours(row_i, col_i, page_i, grid=_copy_grid)
+                    neighbours = self._find_neighbours(
+                        row_i, col_i, page_i, grid=_copy_grid
+                    )
 
                     # Counting the living cells.
                     alive_count = 0
@@ -249,7 +290,9 @@ class Space:
         return returned_arr
 
     @staticmethod
-    def combine_two_grid(expanded_grid: list, small_grid: list, small_g_size: tuple, expand_rate: int) -> None:
+    def combine_two_grid(
+        expanded_grid: list, small_grid: list, small_g_size: tuple, expand_rate: int
+    ) -> None:
         """
         A function to add two 3D grids together. First argument's lengths must be bigger than the
         seconds argument's lengths.
@@ -264,7 +307,9 @@ class Space:
             for x in range(small_g_size[1]):
                 for y in range(small_g_size[2]):
                     if small_grid[z][x][y].is_alive():
-                        expanded_grid[z + expand_rate][x + expand_rate][y + expand_rate].set_alive()
+                        expanded_grid[z + expand_rate][x + expand_rate][
+                            y + expand_rate
+                        ].set_alive()
 
     @staticmethod
     def create_grid(pages, rows, cols) -> list:
@@ -276,10 +321,9 @@ class Space:
         :param cols: Column count. Think it as x-axis length.
         :returns: Nested 3d list
         """
-        grid = [[[
-            VoxelCell(_k, _j, _i) for _j in range(cols)
-        ] for _k in range(rows)
-        ] for _i in range(pages)
+        grid = [
+            [[VoxelCell(_k, _j, _i) for _j in range(cols)] for _k in range(rows)]
+            for _i in range(pages)
         ]
         return grid
 
@@ -298,7 +342,9 @@ class Space:
             col_length = len(nested_list[0][0])
             return row_length, col_length, page_length
 
-    def _apply_rules(self, voxel_cell_object: VoxelCell, neighbour_alive_count: int) -> None:
+    def _apply_rules(
+        self, voxel_cell_object: VoxelCell, neighbour_alive_count: int
+    ) -> None:
         # This the method for checking and applying the rules. Changing here will changing
         # the logic of the game.
         if voxel_cell_object.is_alive():
@@ -314,12 +360,15 @@ class Space:
         if self._max_page:
             if entered_page_size > self._max_page:
                 print(
-                    f'You can\'t construct a Space object with {entered_page_size} pages if \
-                    restricted to {self._max_page}.')
+                    f"You can't construct a Space object with {entered_page_size} pages if \
+                    restricted to {self._max_page}."
+                )
                 return False
         return True
 
-    def _find_neighbours(self, param_x_rows, param_y_cols, param_z_pages, grid=None) -> list:
+    def _find_neighbours(
+        self, param_x_rows, param_y_cols, param_z_pages, grid=None
+    ) -> list:
         neighbour_list = []
         if not grid:
             grid = self._grid
@@ -335,10 +384,14 @@ class Space:
                     if 0 <= nto_check_x < self._rows:
                         if 0 <= nto_check_y < self._cols:
                             if 0 <= nto_check_z < self._pages:
-                                if not (nto_check_x == param_x_rows
-                                        and nto_check_y == param_y_cols
-                                        and nto_check_z == param_z_pages):
-                                    neighbour_list.append(grid[nto_check_z][nto_check_x][nto_check_y])
+                                if not (
+                                    nto_check_x == param_x_rows
+                                    and nto_check_y == param_y_cols
+                                    and nto_check_z == param_z_pages
+                                ):
+                                    neighbour_list.append(
+                                        grid[nto_check_z][nto_check_x][nto_check_y]
+                                    )
 
         return neighbour_list
 
