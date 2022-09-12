@@ -136,6 +136,17 @@ version = "2.5.2"
 
 [[package]]
 category = "main"
+description = "Python bindings for Open Voxel Database"
+name = "pyopenvdb"
+optional = false
+python-versions = "*"
+version = "0.1.4"
+
+[package.dependencies]
+numpy = ">=1.16.2"
+
+[[package]]
+category = "main"
 description = "pyparsing module - Classes and methods to define and execute parsing grammars"
 name = "pyparsing"
 optional = false
@@ -192,7 +203,7 @@ python-versions = ">=3.7"
 version = "4.3.0"
 
 [metadata]
-content-hash = "265fa01510e79ce9019b4a7b41910395e9f18db7ff27a9ff59b430a1f37fa439"
+content-hash = "41e27fe06de8963961bb64a2936bada38a1af7a15a1166f7dbf8217b9859e3f1"
 python-versions = "^3.9.6"
 
 [metadata.hashes]
@@ -209,6 +220,7 @@ packaging = []
 pathspec = []
 pillow = []
 platformdirs = []
+pyopenvdb = []
 pyparsing = []
 python-dateutil = []
 setuptools-scm = []
