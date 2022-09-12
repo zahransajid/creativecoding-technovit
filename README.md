@@ -5,7 +5,7 @@ Using python and the Blender python API, Conway's game of life, a classic exampl
 In addition, consecutive generations of automota were created side by side to help understand temporal progression.
 [This](https://github.com/electricalgorithm/3D-Conways-Game-of-Life) API was used to generate the 3D matrix.
 
-![Turntable render](https://github.com/zahransajid/creativecoding-technovit/blob/master/renders/turntable.gif?raw=true)
+![Turntable render](https://github.com/zahransajid/creativecoding-technovit/blob/main/renders/turntable_1.gif?raw=true)
 
 ## Additional materials
 The powerpoint presentation accompanying the presentation is in the root directory.
